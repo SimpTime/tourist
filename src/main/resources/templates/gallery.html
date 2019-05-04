@@ -9,7 +9,15 @@
 </head>
 <body>
     <div th:replace="~{/common/header_bootstrap :: header_bootstrap}"></div>
+    <div style="
+     background: url(/image/gallery_background.jpg);
+    background-size: cover;
+    width: auto;
+    height: 50%;
+    padding-top: 9em !important;
+    text-align: center;">
 
+    </div>
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
@@ -21,9 +29,9 @@
                             <p class="card-text" th:text="${article.content}"></p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">阅读更多</button>
+                                    <button type="button" class="btn btn-sm btn-outline-info">阅读更多</button>
                                 </div>
-                                <small class="text-muted" th:text="${#dates.format(article.createTime, 'yyyy-MM-dd')}"></small>
+                                <small class="text-muted" th:text="${article.name + '  ' + #dates.format(article.createTime, 'yyyy-MM-dd')}"></small>
                             </div>
                         </div>
                     </div>

@@ -128,9 +128,7 @@ public class SystemController {
         String tag = BaseConstant.ARTICLE_CLASS_SCENIC;
         PageHelper.startPage(pageNum, BaseConstant.PAGE_SIZE); // default 1 9
         List<ArticleDTO> dtos = articleService.list(tag);
-        PageInfo pageInfo = new PageInfo(dtos, BaseConstant.NAVIGATE_PAGES);// 5
 
-        List<ArticleDTO> newDtos = pageInfo.getList();
         // url处理, 正则处理内容，获得
         String url = "/image/default_gallery.png"; // 默认图片
         for (ArticleDTO dto : dtos) {
@@ -146,10 +144,10 @@ public class SystemController {
             }
             dto.setUrl(url);
             // 前面100字符为描述
-            dto.setContent(dto.getContent().substring(0, 100));
+            dto.setContent(dto.getContent().substring(0, 56) + "...");
         }
-        PageInfo newPageInfo = new PageInfo(newDtos, BaseConstant.NAVIGATE_PAGES);// 5
-        model.addAttribute("pageInfo", newPageInfo);
+        PageInfo pageInfo = new PageInfo(dtos, BaseConstant.NAVIGATE_PAGES);// 5
+        model.addAttribute("pageInfo", pageInfo);
         return "gallery";
     }
 }
