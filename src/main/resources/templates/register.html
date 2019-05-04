@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}">
+    <script th:src="@{/webjars/jquery/jquery.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
+</head>
+<body class="text-center">
+<form class="form-signin" id="login" th:action="@{/register}" th:method="post">
+    <a href="/">
+        <img class="mb-4" th:src="@{/}" alt="" width="48" height="48" style="border-radius: 50%">
+    </a>
+    <a href="/">
+        <h1 class="h3 mb-3 font-weight-normal">桂林旅游网站</h1>
+    </a>
+    <label for="username" class="sr-only">Email address</label>
+    <input name="username" id="username" class="form-control" placeholder="用户名" required="" autofocus="">
+    <label for="password" class="sr-only">Password</label>
+    <input name="tel" type="tel" id="tel" class="form-control" placeholder="手机号" required="">
+    <input name="email" type="email" id="email" class="form-control" placeholder="邮箱" required="">
+    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="密码" required="">
+    <input type="password" id="password" class="form-control" placeholder="确认密码" required="">
+    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return check();">注册</button>
+    <div th:replace="~{/common/footer :: footer}"></div>
+    <script>
+        function  check() {
+            var username = $("#username").val();
+            var tel = $("#tel").val();
+            var email = $("#email").val();
+            var inputPassword = $("#inputPassword").val();
+            var password = $("#password").val();
+
+            if("" == username || !username){
+                alert("请填写用户名");
+                return;
+            }
+            if(username.length > 8){
+                alert("用户名不能超过8个字符");
+                return;
+            }
+            if("" == tel || !tel){
+                alert("请填写电话号码");
+                return;
+            }
+            var regTEl = /^[1][3,4,5,7,8][0-9]{9}$/;
+            if(regTEl.test(tel) == false){
+                alert("请填写正确格式的电话号码");
+                return;
+            }
+            if("" == email || !email){
+                alert("请填写邮箱");
+                return;
+            }
+            var regEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            if(regEmail.test(email) == false){
+                alert("请填写正确格式的邮箱");
+                return;
+            }
+            if("" == inputPassword || !inputPassword || "" == password || !password){
+                alert("请填写密码");
+                return;
+            }
+            if(password.length < 8 && password.length > 16){
+                alert("密码必须在8-16位字符");
+                return;
+            }
+            if (inputPassword != password){
+                alert("前后密码不一致");
+                return false;
+            }
+            // 这里对用户名和邮箱的验证放在后台添加时候处理，防止恶意注册
+            $("#login").submit();
+            return true;
+        }
+    </script>
+</form>
+</body>
+</html>

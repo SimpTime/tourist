@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guilin.tourist.dao.ArticleMapper">
+
+    <select id="list" resultType="com.guilin.tourist.model.dto.ArticleDTO">
+      SELECT
+        a.admin_id,
+        ad.name,
+        a.title,
+        a.content,
+        a.create_time,
+        a.tag
+      FROM article a, admin ad
+      WHERE a.tag = #{tag}
+      AND a.admin_id = ad.id
+      ORDER BY a.create_time DESC
+    </select>
+</mapper>

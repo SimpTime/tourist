@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}">
+    <script th:src="@{/webjars/jquery/jquery.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
+</head>
+<body class="text-center">
+<form class="form-signin" id="login" th:action="@{/login}" th:method="post">
+    <a href="/">
+        <img class="mb-4" th:src="@{/}" alt="" width="48" height="48" style="border-radius: 50%">
+    </a>
+    <a href="/">
+        <h1 class="h3 mb-3 font-weight-normal">桂林旅游网站</h1>
+    </a>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input name="email" id="inputEmail" class="form-control" placeholder="用户邮箱/管理员账号" required="" autofocus="">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="密码" required="">
+        <div class="checkbox mb-3">
+            <label>
+                <a th:href="@{/toregister}">注册</a>
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" id =type="submit" onclick="return check();">登录</button>
+    <div th:replace="~{/common/footer :: footer}"></div>
+    <script>
+        function  check() {
+            var email = $("#inputEmail").val();
+            var password = $("#inputPassword").val();
+            if ("" == email || !email || "" == password || !password){
+                alert("请填写账号和密码");
+                return false;
+            }
+            $("#login").submit();
+            return true;
+        }
+    </script>
+</form>
+</body>
+</html>

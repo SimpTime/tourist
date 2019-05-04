@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}">
+    <script th:src="@{/webjars/jquery/jquery.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
+</head>
+<body>
+    <div th:replace="~{/common/header_bootstrap :: header_bootstrap}"></div>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"th:each="article : ${pageInfo.list}">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" th:alt="${article.title}" style="height: 225px; width: 100%; display: block;"
+                             th:src="@{${article.url}}" data-holder-rendered="true">
+                        <div class="card-body">
+                            <p class="card-text" th:text="${article.content}"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">阅读更多</button>
+                                </div>
+                                <small class="text-muted" th:text="${#dates.format(article.createTime, 'yyyy-MM-dd')}"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 分页 -->
+            <nav style="text-align: center;margin-left: 40%;" >
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" th:if="${pageInfo.hasPreviousPage}"
+                           th:href="@{'/gallery'(pn=${pageInfo.pageNum-1})}" th:text="上一页">
+                        </a>
+                        <a class="page-link disabled" th:if="${!pageInfo.hasPreviousPage}"
+                           href="#" th:text="没有了">
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="page_num : ${pageInfo.navigatepageNums}">
+                        <a class="page-link active" th:if="${page_num == pageInfo.pageNum}"
+                           th:text="${page_num}" href="#">
+                        </a>
+                        <a class="page-link"  th:if="${page_num != pageInfo.pageNum}"
+                           th:text="${page_num}" th:href="@{'/gallery'(pn=${page_num})}">
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:if="${pageInfo.hasNextPage}"
+                           th:href="@{'/gallery'(pn=${pageInfo.pageNum+1})}" th:text="下一页">
+                        </a>
+                        <a class="page-link disabled" th:if="${!pageInfo.hasNextPage}"
+                           href="#" th:text="没有了">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <div th:replace="~{/common/footer_bootstrap :: footer_bootstrap}"></div>
+</body>
+</html>
