@@ -123,8 +123,36 @@ public class SystemController {
         return "result";
     }
 
-    @GetMapping("gallery")
-    public String gallery(@RequestParam(value = "pn", defaultValue = "1") Integer pageNum, Model model){
+    @GetMapping("news")
+    public String news(@RequestParam(value = "pn", defaultValue = "1") Integer pageNum, Model model){
+        String tag = BaseConstant.ARTICLE_CLASS_NEWS;
+        PageHelper.startPage(pageNum, BaseConstant.PAGE_SIZE); // default 1 9
+        List<ArticleDTO> dtos = articleService.list(tag);
+
+        // url处理, 正则处理内容，获得
+        String url = "/image/default_gallery.png"; // 默认图片
+        for (ArticleDTO dto : dtos) {
+            Matcher matcher = Pattern.compile(BaseConstant.IMG_SRC_REGEX).matcher(dto.getContent());
+            while (matcher.find()){
+                String temp = matcher.group();
+                matcher = Pattern.compile(BaseConstant.IMG_URL_REGEX).matcher(temp);
+                while (matcher.find()) {
+                    url = matcher.group().substring(0, matcher.group().length()-1);
+                    break;
+                }
+                break;
+            }
+            dto.setUrl(url);
+            // 前面100字符为描述
+            dto.setContent(dto.getContent().substring(0, 56) + "...");
+        }
+        PageInfo pageInfo = new PageInfo(dtos, BaseConstant.NAVIGATE_PAGES);// 5
+        model.addAttribute("pageInfo", pageInfo);
+        return "news";
+    }
+
+    @GetMapping("scenic")
+    public String scenic(@RequestParam(value = "pn", defaultValue = "1") Integer pageNum, Model model){
         String tag = BaseConstant.ARTICLE_CLASS_SCENIC;
         PageHelper.startPage(pageNum, BaseConstant.PAGE_SIZE); // default 1 9
         List<ArticleDTO> dtos = articleService.list(tag);
@@ -148,6 +176,35 @@ public class SystemController {
         }
         PageInfo pageInfo = new PageInfo(dtos, BaseConstant.NAVIGATE_PAGES);// 5
         model.addAttribute("pageInfo", pageInfo);
-        return "gallery";
+        return "news";
     }
+
+    @GetMapping("food")
+    public String food(@RequestParam(value = "pn", defaultValue = "1") Integer pageNum, Model model){
+        String tag = BaseConstant.ARTICLE_CLASS_FOOD;
+        PageHelper.startPage(pageNum, BaseConstant.PAGE_SIZE); // default 1 9
+        List<ArticleDTO> dtos = articleService.list(tag);
+
+        // url处理, 正则处理内容，获得
+        String url = "/image/default_gallery.png"; // 默认图片
+        for (ArticleDTO dto : dtos) {
+            Matcher matcher = Pattern.compile(BaseConstant.IMG_SRC_REGEX).matcher(dto.getContent());
+            while (matcher.find()){
+                String temp = matcher.group();
+                matcher = Pattern.compile(BaseConstant.IMG_URL_REGEX).matcher(temp);
+                while (matcher.find()) {
+                    url = matcher.group().substring(0, matcher.group().length()-1);
+                    break;
+                }
+                break;
+            }
+            dto.setUrl(url);
+            // 前面100字符为描述
+            dto.setContent(dto.getContent().substring(0, 56) + "...");
+        }
+        PageInfo pageInfo = new PageInfo(dtos, BaseConstant.NAVIGATE_PAGES);// 5
+        model.addAttribute("pageInfo", pageInfo);
+        return "food";
+    }
+
 }
